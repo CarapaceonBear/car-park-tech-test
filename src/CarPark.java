@@ -1,18 +1,16 @@
-import javax.swing.*;
-import java.lang.module.ModuleReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarPark {
 
-    private int motorcycleSpacesMax;
+    private final int motorcycleSpacesMax;
     private int motorcycleSpacesRemaining;
-    private int parkingSpacesMax;
+    private final int parkingSpacesMax;
     private int parkingSpacesRemaining;
     private int parkedMotorcycles = 0;
     private int parkedCars = 0;
     private int parkedVans = 0;
-    private List<Vehicle> parkedVehicles = new ArrayList<>();
+    private final List<Vehicle> parkedVehicles = new ArrayList<>();
 
     public CarPark(int motorcycleSpaces, int parkingSpaces) {
         this.motorcycleSpacesMax = motorcycleSpaces;
@@ -21,7 +19,6 @@ public class CarPark {
         this.parkingSpacesRemaining = parkingSpaces;
     }
 
-    // populate car park
     String[] motorcycles = {"yamaha", "honda", "ducati", "kawasaki", "harley-davidson", "bmw"};
     String[] cars = {"bmw", "porsche", "ford", "hyundai", "honda", "volkswagen"};
     String[] vans = {"chevrolet", "citroen", "dacia", "fiat", "ford", "honda"};
@@ -56,7 +53,7 @@ public class CarPark {
 
     public void listParkedVehicles() {
         for (Vehicle vehicle : parkedVehicles) {
-            System.out.println(String.format("%s, %s, %s", vehicle.getType(), vehicle.getModel(), vehicle.getRegistration()));
+            System.out.println(String.format("%s, #%d, %s, %s", vehicle.getType(), vehicle.getId(), vehicle.getModel(), vehicle.getRegistration()));
         }
     }
 
@@ -73,6 +70,7 @@ public class CarPark {
                     return;
                 }
                 parkedVehicles.add(new Motorcycle(model, registration));
+                parkedMotorcycles ++;
                 break;
             case "car":
                 if (parkingSpacesRemaining > 0) {
@@ -81,6 +79,7 @@ public class CarPark {
                     return;
                 }
                 parkedVehicles.add(new Car(model, registration));
+                parkedCars++;
                 break;
             case "van":
                 if (parkingSpacesRemaining > 2) {
@@ -89,13 +88,20 @@ public class CarPark {
                     return;
                 }
                 parkedVehicles.add(new Van(model, registration));
+                parkedVans++;
                 break;
         }
     }
 
-    // check remaining spaces
+    public String checkRemainingSpaces() {
+        return (String.format("%d motorcycle spaces remaining, %d regular spaces remaining",
+                motorcycleSpacesRemaining, parkingSpacesRemaining));
+    }
 
-    // check number of each vehicle parked
+    public String checkParkedVehicles() {
+        return (String.format("%d motorcycles parked, %d cars parked, %d vans parked",
+                parkedMotorcycles, parkedCars, parkedVans));
+    }
 
     public int getMotorcycleSpacesMax() {
         return motorcycleSpacesMax;
@@ -132,5 +138,9 @@ public class CarPark {
     }
     public void setParkedVans(int parkedVans) {
         this.parkedVans = parkedVans;
+    }
+
+    public List<Vehicle> getParkedVehicles() {
+        return parkedVehicles;
     }
 }
