@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.lang.module.ModuleReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,45 +31,67 @@ public class CarPark {
         availableVehicles[0] = motorcycles;
         availableVehicles[1] = cars;
         availableVehicles[2] = vans;
+        String[] vehicleTypes = {"motorcycle", "car", "van"};
         String[] alphabet = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v",
                 "w","x","y","z"};
-
         for (int i = 0; i < numberOfVehicles; i++) {
             int whichVehicle = (int) (Math.random() * 3);
             int whichModel = (int) (Math.random() * 6);
             StringBuilder registration = new StringBuilder();
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < 8; j++) {
                 if (j == 2 || j == 3) {
                     int character = (int) (Math.random() * 10);
                     registration.append(character);
+                } else if (j == 4) {
+                    registration.append(" ");
                 } else {
                     String character = alphabet[(int) (Math.random() * 26)];
                     registration.append(character);
                 }
             }
-            switch (whichVehicle) {
-                case 0:
-                    parkedVehicles.add(new Motorcycle(availableVehicles[0][whichModel], registration.toString()));
-                    break;
-                case 1:
-                    parkedVehicles.add(new Car(availableVehicles[1][whichModel], registration.toString()));
-                    break;
-                case 2:
-                    parkedVehicles.add(new Van(availableVehicles[2][whichModel], registration.toString()));
-                    break;
-            }
+            parkVehicle(vehicleTypes[whichVehicle], availableVehicles[whichVehicle][whichModel], registration.toString());
         }
 
     }
 
     public void listParkedVehicles() {
         for (Vehicle vehicle : parkedVehicles) {
-            System.out.println(vehicle.getType() + vehicle.getModel() + vehicle.getRegistration());
+            System.out.println(String.format("%s, %s, %s", vehicle.getType(), vehicle.getModel(), vehicle.getRegistration()));
         }
     }
 
 
     // park vehicle
+    public void parkVehicle(String type, String model, String registration) {
+        switch (type) {
+            case "motorcycle":
+                if (motorcycleSpacesRemaining > 0) {
+                    motorcycleSpacesRemaining --;
+                } else if (parkingSpacesRemaining > 0) {
+                    parkingSpacesRemaining --;
+                } else {
+                    return;
+                }
+                parkedVehicles.add(new Motorcycle(model, registration));
+                break;
+            case "car":
+                if (parkingSpacesRemaining > 0) {
+                    parkingSpacesRemaining --;
+                } else {
+                    return;
+                }
+                parkedVehicles.add(new Car(model, registration));
+                break;
+            case "van":
+                if (parkingSpacesRemaining > 2) {
+                    parkingSpacesRemaining -= 3;
+                } else {
+                    return;
+                }
+                parkedVehicles.add(new Van(model, registration));
+                break;
+        }
+    }
 
     // check remaining spaces
 
