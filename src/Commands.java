@@ -4,7 +4,8 @@ import java.util.Scanner;
 
 public class Commands {
 
-    private String[] commandList = {"park vehicle", "check remaining spaces", "check numbers parked", "list parked vehicles", "get daily intake"};
+    private String[] commandList = {"park vehicle", "check remaining spaces", "check numbers parked",
+            "list parked vehicles", "get daily intake", "check out vehicle"};
     private final UserInput input;
     private final CarPark carPark;
     DecimalFormat df = new DecimalFormat("0.00");
@@ -42,6 +43,11 @@ public class Commands {
                     break;
                 case 5:
                     input.printMessage(String.format("Daily intake: £%s", df.format(carPark.getDailyIntake())));
+                    break;
+                case 6:
+                    String searchingRegistration = input.getStringInput("registration number");
+                    Vehicle foundVehicle = carPark.searchVehicleByRegistration(searchingRegistration);
+                    carPark.getParkedVehicles().remove(foundVehicle);
                     break;
                 default:
                     isActive = false;

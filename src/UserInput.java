@@ -28,6 +28,7 @@ public class UserInput {
                 printMessage("Invalid response");
             }
         }
+        scanner.nextLine();
         return input;
     }
 

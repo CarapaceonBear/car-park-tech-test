@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class CarPark {
 
@@ -52,13 +54,6 @@ public class CarPark {
 
     }
 
-    public void listParkedVehicles() {
-        for (Vehicle vehicle : parkedVehicles) {
-            System.out.println(String.format("%s, #%d, %s, %s", vehicle.getType(), vehicle.getId(), vehicle.getModel(), vehicle.getRegistration()));
-        }
-    }
-
-
     // park vehicle
     public void parkVehicle(String type, String model, String registration) {
         switch (type) {
@@ -108,6 +103,15 @@ public class CarPark {
     public String checkParkedVehicles() {
         return (String.format("%d motorcycles parked, %d cars parked, %d vans parked",
                 parkedMotorcycles, parkedCars, parkedVans));
+    }
+
+    public Vehicle searchVehicleByRegistration(String registration) {
+        try {
+            return parkedVehicles.stream().filter(vehicle -> vehicle.getRegistration().equals(registration)).findFirst().get();
+        } catch (NoSuchElementException e) {
+            System.out.println("No vehicle with given registration number");
+            return new Car("empty", "empty");
+        }
     }
 
     public int getMotorcycleSpacesMax() {
