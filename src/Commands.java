@@ -1,11 +1,13 @@
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Scanner;
 
 public class Commands {
 
-    private String[] commandList = {"park vehicle", "check remaining spaces", "check numbers parked", "list parked vehicles"};
+    private String[] commandList = {"park vehicle", "check remaining spaces", "check numbers parked", "list parked vehicles", "get daily intake"};
     private final UserInput input;
     private final CarPark carPark;
+    DecimalFormat df = new DecimalFormat("0.00");
 
     public Commands(UserInput input, CarPark carPark){
         this.input = input;
@@ -37,6 +39,9 @@ public class Commands {
                     for (Vehicle vehicle : parkedVehicles) {
                         input.printMessage(String.format("%s, #%d, %s, %s", vehicle.getType(), vehicle.getId(), vehicle.getModel(), vehicle.getRegistration()));
                     }
+                    break;
+                case 5:
+                    input.printMessage(String.format("Daily intake: £%s", df.format(carPark.getDailyIntake())));
                     break;
                 default:
                     isActive = false;

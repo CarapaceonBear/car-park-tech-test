@@ -1,9 +1,10 @@
 public abstract class Vehicle {
 
-    private int id;
+    private final int id;
     private String type;
     private String model;
     private String registration;
+    private float parkingFee;
 
     private static int idCounter = 0;
 
@@ -38,5 +39,12 @@ public abstract class Vehicle {
     }
     public void setRegistration(String registration) {
         this.registration = registration;
+    }
+
+    public float getParkingFee() {
+        return parkingFee;
+    }
+    public void setParkingFee(float parkingFee) {
+        this.parkingFee = parkingFee;
     }
 }

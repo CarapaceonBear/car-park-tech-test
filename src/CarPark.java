@@ -11,6 +11,7 @@ public class CarPark {
     private int parkedCars = 0;
     private int parkedVans = 0;
     private final List<Vehicle> parkedVehicles = new ArrayList<>();
+    private float dailyIntake = 0;
 
     public CarPark(int motorcycleSpaces, int parkingSpaces) {
         this.motorcycleSpacesMax = motorcycleSpaces;
@@ -69,8 +70,10 @@ public class CarPark {
                 } else {
                     return;
                 }
-                parkedVehicles.add(new Motorcycle(model, registration));
+                Motorcycle newMotorcycle = new Motorcycle(model, registration);
+                parkedVehicles.add(newMotorcycle);
                 parkedMotorcycles ++;
+                dailyIntake += newMotorcycle.getParkingFee();
                 break;
             case "car":
                 if (parkingSpacesRemaining > 0) {
@@ -78,8 +81,10 @@ public class CarPark {
                 } else {
                     return;
                 }
-                parkedVehicles.add(new Car(model, registration));
+                Car newCar = new Car(model, registration);
+                parkedVehicles.add(newCar);
                 parkedCars++;
+                dailyIntake += newCar.getParkingFee();
                 break;
             case "van":
                 if (parkingSpacesRemaining > 2) {
@@ -87,8 +92,10 @@ public class CarPark {
                 } else {
                     return;
                 }
-                parkedVehicles.add(new Van(model, registration));
+                Van newVan = new Van(model, registration);
+                parkedVehicles.add(newVan);
                 parkedVans++;
+                dailyIntake += newVan.getParkingFee();
                 break;
         }
     }
@@ -142,5 +149,9 @@ public class CarPark {
 
     public List<Vehicle> getParkedVehicles() {
         return parkedVehicles;
+    }
+
+    public float getDailyIntake() {
+        return dailyIntake;
     }
 }
