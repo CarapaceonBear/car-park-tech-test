@@ -1,5 +1,8 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        CarPark carPark = new CarPark(50, 200);
+
+        carPark.populateCarPark(20);
+        carPark.listParkedVehicles();
     }
 }
